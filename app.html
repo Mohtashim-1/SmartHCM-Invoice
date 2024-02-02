@@ -1,0 +1,95 @@
+<div style="display:flex;  justify-content: space-between;">
+    <h2>Sales Invoice</h2>
+    <h2>{{doc.status}}</h2>
+</div>
+<div>
+    <div style="display:flex; justify-content: space-between;">
+        <div>
+            Customer Name:<br>
+            <b>{{ doc.customer_name }}</b><br>
+            Customer NTN:<br>
+            <b>{{ doc.tax_id }}</b><br>
+            Customer Address:<br>
+            <b>{{ doc.customer_address }}</b><br>
+            PO Number<br>
+            <b>{{ doc.po_no }}</b>
+        </div>
+
+        <div>
+            Invoice Number :<br>
+            <b>{{ doc.name }}</b><br>
+            Posting Date:<br>
+            <b>{{ doc.posting_date}}</b><br>
+            Payment Due Date:<br>
+            <b>{{ doc.due_date }}</b><br>
+            PO Date:<br>
+            <b>{{ doc.po_date }}</b>
+        </div>
+    </div>
+</div>
+
+
+<table style="border-collapse: collapse;border-color:inherit; width: 100%; border: 1px solid #f4f5f6;">
+    <thead style="background-color: #F5F5F5;">
+        <tr>
+            <th style="border: 1px solid #f4f5f6; font-weight: bold;color: black;">Description</th>
+            <th style="border: 1px solid #f4f5f6; font-weight: bold;color: black;">Quantity</th>
+            <th style="border: 1px solid #f4f5f6; font-weight: bold;color: black;">Rate</th>
+            <th style="border: 1px solid #f4f5f6; font-weight: bold;color: black;">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in doc.items %}
+        <tr style="border: 1px solid black;">
+            <!--{{frappe.utils.fmt_money(item.amount, currency=doc.currency)}}-->
+            <td style="border: 1px solid #f4f5f6;">{{ item.name}}</td>
+            <td style="border: 1px solid #f4f5f6;">
+                <!--{{ item.qty }}-->
+                <!--{{'{0:0.2f}'.format(item.qty) }}.2f-->
+                {{'{0:0.2f}'.format(item.qty) }}
+
+            </td>
+            <td style="border: 1px solid #f4f5f6;">
+                <!--{{ item.rate}}-->
+                {{frappe.utils.fmt_money(item.rate, currency=doc.currency)}}
+            </td>
+
+            <td style="border: 1px solid #f4f5f6;">
+                <!--{{ item.amount }}-->
+
+                {{frappe.utils.fmt_money(item.amount, currency=doc.currency)}}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<div style="display:flex;justify-content: space-between;">
+    <div style="width:50%">{{doc.terms}}</div>
+
+    <div>Total<br>
+        Discount<br>
+        {% for tax in doc.taxes %}
+
+        {{ tax.account_head }}
+
+
+        {% endfor %}<br>
+        Grand Total
+    </div>
+    <div>
+        <b>{{frappe.utils.fmt_money(doc.total)}}</b>
+        <br>
+        <b>{{frappe.utils.fmt_money(doc.total)}}</b>
+        <br>
+        <b>{{frappe.utils.fmt_money(doc.total)}}</b>
+        <br>
+        <b>{{frappe.utils.fmt_money(doc.total)}}</b>
+    </div>
+    <br>
+
+
+</div>
+
+<div>
+</div>
